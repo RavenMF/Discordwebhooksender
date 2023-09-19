@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discord Webhook Sender</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Discord Webhook Sender</h1>
+        <label for="webhookURL">Discord Webhook URL:</label>
+        <input type="text" id="webhookURL" placeholder="Enter Webhook URL">
+        <label for="message">Message:</label>
+        <input type="text" id="message" placeholder="Enter your message">
+        <button onclick="sendMessage()">Send Message</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const webhookURL = document.getElementById("webhookURL").value;
+            const message = document.getElementById("message").value;
+
+            if (!webhookURL || !message) {
+                alert("Both Webhook URL and Message are required!");
+                return;
+            }
+
+            const data = {
+                content: message
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.status === 204) {
+                    alert("Message sent successfully!");
+                } else {
+                    alert("Failed to send message. Please check the Webhook URL.");
+                }
+            })
+            .catch(error => {
+                alert("An error occurred: " + error);
+            });
+        }
+    </script>
+</body>
+</html>
